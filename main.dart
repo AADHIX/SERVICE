@@ -38,6 +38,8 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 100),
             ServicesCardsSection(),
             SizedBox(height: 50),
+            OfferCardsSection(),
+            SizedBox(height: 50),
             EmbeddedYouTubeVideo(),
             SizedBox(height: 50),
           ],
@@ -152,18 +154,21 @@ class AboutUsSection extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-                Text(
-                'We connect with reliable\nand skilled professionals\n'
-                'offering on-demand\nservices in your local area.\n'
-                'Trusted expertise\nwho get the job done quickly.',
-                style: TextStyle(
-                  color: Color.fromARGB(250, 255, 255, 255),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                  height: 1.5,
-                ),
-                textAlign: TextAlign.justify,
-                ),
+                  SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    'We connect with reliable\nand skilled professionals\n'
+                    'offering on-demand\nservices in your local area.\n'
+                    'Trusted expertise who\nget the job done quickly.',
+                    style: TextStyle(
+                    color: Color.fromARGB(250, 255, 255, 255),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    height: 1.5,
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                  ),
               SizedBox(height: 30),
             ],
           ),
@@ -266,49 +271,58 @@ class ServicesCardsSection extends StatelessWidget {
             final service = currentServices[index];
             return Stack(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.0),
-                    color: Colors.orange, // Changed background color to orange
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
+              Container(
+                decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                color: Colors.orange, // Changed background color to orange
+                boxShadow: [
+                  BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          service['title']!,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 253, 253, 253),
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          service['description']!,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black54,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                ],
+                ),
+                child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                  TweenAnimationBuilder(
+                    tween: Tween<double>(begin: 0, end: 1),
+                    duration: const Duration(seconds: 1),
+                    builder: (context, double opacity, child) {
+                    return Opacity(
+                      opacity: opacity,
+                      child: child,
+                    );
+                    },
+                    child: Text(
+                    service['title']!,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 253, 253, 253),
+                    ),
+                    textAlign: TextAlign.center,
                     ),
                   ),
+                  const SizedBox(height: 12),
+                  Text(
+                    service['description']!,
+                    style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.black54,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  ],
                 ),
-                
+                ),
+              ),
               ],
             );
           },
@@ -317,15 +331,122 @@ class ServicesCardsSection extends StatelessWidget {
       options: CarouselOptions(
         autoPlay: true,
         enlargeCenterPage: true,
-        aspectRatio: 2.0,
+        aspectRatio: 4.0,
         viewportFraction: 1.0,
       ),
     );
   }
 }
+class OfferCardsSection extends StatelessWidget {
+  const OfferCardsSection({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    final offers = [
+      {
+        'title': '50% Off on First Booking',
+        'description': 'Get 50% off on your first parking slot booking.',
+        'image': 'assets/offer1.jpg',
+      },
+      {
+        'title': 'Free Parking on Weekends',
+        'description': 'Enjoy free parking on weekends for the first month.',
+        'image': 'assets/offer2.jpg',
+      },
+      {
+        'title': 'Refer & Earn',
+        'description': 'Refer a friend and earn free parking credits.',
+        'image': 'assets/offer3.jpg',
+      },
+      {
+        'title': 'Monthly Subscription Discount',
+        'description': 'Get 20% off on monthly subscription plans.',
+        'image': 'assets/offer4.jpg',
+      },
+    ];
 
-
+    return Column(
+      children: [
+        const Text(
+          'UPCOMING OFFERS',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Color.fromARGB(255, 253, 249, 249),
+          ),
+        ),
+        const SizedBox(height: 20),
+        CarouselSlider.builder(
+          itemCount: offers.length,
+          itemBuilder: (context, index, realIndex) {
+            final offer = offers[index];
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              color: Colors.orange,
+              elevation: 5,
+              child: Stack(
+                children: [
+                  Container(
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.0),
+                      image: DecorationImage(
+                        image: AssetImage(offer['image']!),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.0),
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          offer['title']!,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 251, 251, 251),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          offer['description']!,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                            color: Color.fromARGB(255, 255, 252, 252),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          options: CarouselOptions(
+            autoPlay: true,
+            enlargeCenterPage: true,
+            aspectRatio: 5.0,
+            viewportFraction: 0.4,
+          ),
+        ),
+      ],
+    );
+  }
+}
 class EmbeddedYouTubeVideo extends StatefulWidget {
   const EmbeddedYouTubeVideo({super.key});
 
@@ -381,7 +502,7 @@ class _EmbeddedYouTubeVideoState extends State<EmbeddedYouTubeVideo> {
               value: language,
               child: Text(
                 language,
-                style: TextStyle(
+                style:  const TextStyle(
                   color: Colors.red, // Set the text color to red
                 ),
               ),
@@ -421,10 +542,10 @@ class _EmbeddedYouTubeVideoState extends State<EmbeddedYouTubeVideo> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Logo or Company Name (optional)
-                Center(
+                const Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0), // Adjust padding value as needed
-                    child: const Text(
+                    padding: EdgeInsets.all(16.0), // Adjust padding value as needed
+                    child: Text(
                       'MyParking App',
                       style: TextStyle(
                       color: Color.fromARGB(255, 249, 245, 245),
